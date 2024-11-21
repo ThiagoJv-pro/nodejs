@@ -1,0 +1,222 @@
+openapi: 3.0.0
+info:
+  title: API-datagro
+  description: This is a doc API-datagro
+  contact:
+    email: thiago.vieira@datagro.com
+  license:
+    name: Apache 2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+  version: 1.0.0
+servers:
+- url: https://virtserver.swaggerhub.com/THIJV7/datagro-api/1.0.0
+  description: SwaggerHub API Auto Mocking
+security:
+   - ApiKeyAuth: []
+paths:  
+  /root:
+    get:
+      tags:
+      - Get all
+      summary: Retrieves all entities root.
+      description: Retorna todas os registros contendo a entidade Root.
+      operationId: Retrieve all entities root.
+      parameters:
+      - name: Pagination
+        in: query
+        description: Passar um valor para paginação.
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/root'
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+      x-swagger-router-controller: Root
+    post:
+      tags:
+      - Create
+      summary: Create a new Root
+      description: Adiciona/cria uma nova entidade Root.
+      operationId: createRoot
+      requestBody:
+        description: Add nova entidade Root
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/root'
+        required: true
+      responses:
+        "201":
+          description: Item created
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+  /root/{id}:
+    get:
+      tags:
+        - Get Entity by ID
+      summary: Get root by id
+      description: Retorna uma entidade root expecifica pelo id.
+      operationId: GetById
+      parameters:
+      - name: ID
+        in: query
+        description: Passa um id para busca.
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/root'
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+      x-swagger-router-controller: Root
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY
+  schemas:
+    root:
+      required:
+      - id
+      - bolsa
+      - name
+      - long
+      - subProduct
+      - decimal
+      - correlates
+      - representation
+      - frequency
+      - flex
+      - idbolsa
+      - cod
+      - day
+      - ult
+      - var
+      - chart1
+      - units
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        idbolsa:
+          type: integer
+          example: 2
+        name:
+          type: string
+          example: Indicador do Boi SP
+        long:
+          type: string
+          example: "DATAGRO Daily Live Cattle Index BRL\\/@ SP [D_PEPR_SP_BR]"
+        subProduct:
+          type: integer
+          example: 1261
+        decimal:
+          type: integer
+          example: 2
+        correlates:
+          type: integer
+          example: 49
+        representation:
+          type: integer
+          example: 4
+        frequency:
+          type: integer
+          example: 1
+        flex:
+          type: integer
+          example: 1
+        bolsa:
+          type: integer
+          example: 2
+        cod:
+          type: integer
+          example: 1
+        day:
+          type: string
+          format: date-time
+        ult:
+          type: number
+          format: double
+          example: 343.09
+        var:
+          type: number
+          format: double
+          example: 0
+        chart1:
+          type: string
+          example: 3m
+        units:
+          type: array
+          items:
+            $ref: '#/components/schemas/unit'
+    unit:
+      required:
+      - factor
+      - index
+      - name
+      type: object
+      properties:
+        name:
+          type: string
+          format: string
+          example: R$\/ston
+        factor:
+          type: number
+          format: number
+          example: 60.47898266666667
+        index:
+            $ref: '#/components/schemas/index'
+    index:
+      required:
+      - active
+      - actual
+      - date
+      - div
+      type: object
+      properties:
+        active:
+          type: string
+          format: string
+          example: EURCM
+        actual:
+          type: integer
+          format: integer
+          example: 6
+        div:
+          type: boolean
+          format: boolean
+          example: true
+        date:
+          type: string
+          format: date-time
+          example: "2024-11-20T21:29:04.021Z"
